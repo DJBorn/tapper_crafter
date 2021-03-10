@@ -1,5 +1,7 @@
 body {
     margin: 50px;
+    font-family: Arial;
+    font-size: 20px;
 }
 
 .container {
@@ -8,4 +10,25 @@ body {
 
 .flex-item {
     flex-grow: 1;
+}
+
+
+button:hover {
+    background-color: #677c99;
+}
+
+button {
+    padding: 15px 30px;
+    background-color: #abceff;
+    box-shadow: 0 9px #999;
+    border: none;
+    outline: none;
+    font-family: Arial;
+    font-size: 20px;
+}
+
+button:active {
+    background-color: #677c99;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
