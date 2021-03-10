@@ -5,7 +5,8 @@ const shopRates = {
 }
 
 const employmentRates = {
-    "woodFarmers": 1
+    "woodFarmers": 20,
+    "woodMerchants": 20
 }
 
 function addItem(item, value) {
@@ -21,31 +22,46 @@ function farmItem(item) {
     refresh();
 }
 
-function sellItem(item) {
-    if(getItem(item) <= 0)
-        return;
+function sellItem(item, quantity) {
+    if(getItem(item) < quantity)
+        quantity = getItem(item);
     let rate = shopRates[item];
-    addItem(item, -1);
-    addItem("gold", rate);
+    addItem(item, -quantity);
+    addItem("gold", rate*quantity);
     refresh();
 }
 
-function hire(worker) {
+function hireWorker(worker) {
     if(getItem("gold") < employmentRates[worker])
         return;
     let workers = JSON.parse(storage.getItem("workers"));
     if(!workers[worker])
         workers[worker] = 0;
     workers[worker]++;
-    addItem("gold", employmentRates[worker] * -1);
+    addItem("gold", -employmentRates[worker]);
     storage.setItem("workers", JSON.stringify(workers));
     refresh();
 }
 
+function hireMerchant(merchant) {
+    if(getItem("gold") < employmentRates[merchant])
+        return;
+    let merchants = JSON.parse(storage.getItem("merchants"));
+    if(!merchants[merchant])
+        merchants[merchant] = 0;
+    merchants[merchant]++;
+    addItem("gold", employmentRates[merchant] * -1);
+    storage.setItem("merchants", JSON.stringify(merchants));
+    refresh();
+}
+
 function refresh() {
+    if(storage.getItem("wood") === undefined)
+        clearData();
     document.getElementById("wood").innerHTML = storage.getItem("wood");
     document.getElementById("gold").innerHTML = storage.getItem("gold");
     document.getElementById("woodFarmers").innerHTML = JSON.parse(storage.getItem("workers")).woodFarmers;
+    document.getElementById("woodMerchants").innerHTML = JSON.parse(storage.getItem("merchants")).woodMerchants;
 }
 
 function clearData() {
@@ -53,16 +69,22 @@ function clearData() {
     let workers = {
         woodFarmers: 0
     };
+    let merchants = {
+        woodMerchants: 0
+    };
     storage.setItem("wood", 0);
     storage.setItem("gold", 0);
     storage.setItem("workers", JSON.stringify(workers));
+    storage.setItem("merchants", JSON.stringify(merchants));
     refresh();
 }
 
-function initWorkers() {
+function initEmployees() {
     let workers = JSON.parse(storage.getItem("workers"));
+    let merchants = JSON.parse(storage.getItem("merchants"));
     let workType = {
-        "woodFarmers": "wood"
+        "woodFarmers": "wood",
+        "woodMerchants": "wood"
     }
     for(let worker in workers) {
         setInterval(function() {
@@ -71,7 +93,15 @@ function initWorkers() {
             refresh();
         }, 2000);
     }
+
+    for(let merchant in merchants) {
+        setInterval(function() {
+            let merchantCount = JSON.parse(storage.getItem("merchants"))[merchant];
+            sellItem(workType[merchant], merchantCount);
+            refresh();
+        }, 2000);
+    }
 }
 
 refresh();
-initWorkers();
+initEmployees();
