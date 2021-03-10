@@ -56,7 +56,7 @@ function hireMerchant(merchant) {
 }
 
 function refresh() {
-    if(storage.getItem("wood") === undefined)
+    if(storage.getItem("wood") === null)
         clearData();
     document.getElementById("wood").innerHTML = storage.getItem("wood");
     document.getElementById("gold").innerHTML = storage.getItem("gold");
