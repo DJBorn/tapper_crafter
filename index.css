@@ -14,7 +14,7 @@ body {
 
 
 button:hover {
-    background-color: #677c99;
+    background-color: #bdd8ff;
 }
 
 button {
@@ -28,7 +28,11 @@ button {
 }
 
 button:active {
-    background-color: #677c99;
+    background-color: #829dc4;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
+}
+
+.disable-dbl-tap-zoom {
+    touch-action: manipulation;
 }
