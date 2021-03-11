@@ -9,24 +9,42 @@
 </head>
 
 <body class="disable-dbl-tap-zoom">
-    <div class="container">
-        <div class="flex-item">
-            <label><b>Stats</b></label> <br><br>
-            <label>Gold: </label><label id="gold"></label><br><br>
-            <label>Wood: </label><label id="wood"></label><br><br>
-            <label>Wood Farmers: </label><label id="woodFarmers"></label><br><br>
-            <label>Wood Merchants: </label><label id="woodMerchants"></label><br><br>
-            <button onclick="farmItem('wood')">Farm 1 wood</button>
-            <br><br><br><br><button onclick="clearData()">Clear data</button>
+    <div class="flex-column">
+        <div class="flex-row flex-item">
+            <div class="flex-item">
+                <label><b>Stats</b></label> <br><br>
+                <label>Gold: </label><label id="gold"></label><br><br>
+                <label>Wood: </label><label id="wood"></label><br><br>
+                <label>Wood Swords: </label><label id="woodSwords"></label><br><br>
+                <label>Wood Farmers: </label><label id="woodFarmers"></label><br><br>
+                <label>Wood Merchants: </label><label id="woodMerchants"></label><br><br>
+                <button onclick="farmItem('wood')">Farm 1 wood</button>
+                <br><br><br><br><button onclick="clearData()">Clear data</button>
+            </div>
+            <div class="flex-item">
+                <label><b>Craft</b></label><br><br>
+                <button onclick="exchangeItemQuantities('wood', 'woodSwords', 1, 100)">Wood Sword (100 Wood)</button>
+            </div>
+            <div class="flex-item">
+                <label><b>Shop</b></label><br><br>
+                <button onclick="sellItem('wood', 1)">Sell 1 wood (1 for 1)</button>
+            </div>
+            <div class="flex-item">
+                <label><b>Employment Centre</b></label><br><br>
+                <button onclick="hireWorker('woodFarmers')">Hire Wood Farmer (20 g)</button><br><br>
+                <button onclick="hireMerchant('woodMerchants')">Hire Wood Merchant (20 g)</button>
+            </div>
         </div>
-        <div class="flex-item">
-            <label><b>Shop</b></label><br><br>
-            <button onclick="sellItem('wood', 1)">Sell 1 wood (1 for 1)</button>
-        </div>
-        <div class="flex-item">
-            <label><b>Employment Centre</b></label><br><br>
-            <button onclick="hireWorker('woodFarmers')">Hire Wood Farmer (20 g)</button><br><br>
-            <button onclick="hireMerchant('woodMerchants')">Hire Wood Merchant (20 g)</button>
+        <div class="flex-row flex-item">
+            <div class="flex-item">
+            </div>
+            <div class="flex-item">
+                <label><b>Slime Boss</b></label><br><br>
+                <label>HP: </label><label id="slimeHP"></label><br><br>
+                <button onclick="attack('slimeHP', 1, 'woodSwords')">Attack</button>
+            </div>
+            <div class="flex-item">
+            </div>
         </div>
     </div>
 </body>

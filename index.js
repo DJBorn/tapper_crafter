@@ -26,8 +26,18 @@ function sellItem(item, quantity) {
     if(getItem(item) < quantity)
         quantity = getItem(item);
     let rate = shopRates[item];
-    addItem(item, -quantity);
-    addItem("gold", rate*quantity);
+    exchangeItemQuantities(item, "gold", quantity, rate);
+    refresh();
+}
+
+function exchangeItemQuantities(tradeInItem, tradeOutItem, quantity, rate) {
+    let tradeInQuantity = getItem(tradeInItem);
+
+    if(tradeInQuantity < quantity*rate)
+        return;
+    
+    addItem(tradeInItem, -quantity*rate);
+    addItem(tradeOutItem, quantity);
     refresh();
 }
 
@@ -55,11 +65,25 @@ function hireMerchant(merchant) {
     refresh();
 }
 
+function attack(boss, damage, weapon) {
+    if(getItem(weapon) <= 0)
+        return;
+    addItem(weapon, -damage);
+    addItem(boss, -damage);
+    refresh();
+}
+
 function refresh() {
     if(storage.getItem("wood") === null)
         clearData();
+    if(storage.getItem("slimeHP") === null)
+        storage.setItem("slimeHP", 100);
+    if(storage.getItem("woodSwords") === null)
+        storage.setItem("woodSwords", 0);
     document.getElementById("wood").innerHTML = storage.getItem("wood");
     document.getElementById("gold").innerHTML = storage.getItem("gold");
+    document.getElementById("slimeHP").innerHTML = storage.getItem("slimeHP");
+    document.getElementById("woodSwords").innerHTML = storage.getItem("woodSwords");
     document.getElementById("woodFarmers").innerHTML = JSON.parse(storage.getItem("workers")).woodFarmers;
     document.getElementById("woodMerchants").innerHTML = JSON.parse(storage.getItem("merchants")).woodMerchants;
 }
@@ -74,6 +98,7 @@ function clearData() {
     };
     storage.setItem("wood", 0);
     storage.setItem("gold", 0);
+    storage.setItem("slimeHP", 100);
     storage.setItem("workers", JSON.stringify(workers));
     storage.setItem("merchants", JSON.stringify(merchants));
     refresh();
